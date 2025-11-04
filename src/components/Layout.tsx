@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { MessageSquare, Server, BarChart3, Settings, Menu, X, Activity } from 'lucide-react';
+import { MessageSquare, Server, Settings, Menu, X, Activity } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { apiClient } from '@/lib/api';
 import { cn } from '@/lib/utils';
@@ -35,7 +35,6 @@ export default function Layout({ children }: LayoutProps) {
   const navItems = [
     { icon: MessageSquare, label: 'Chat', path: '/' },
     { icon: Server, label: 'Servers', path: '/servers' },
-    { icon: BarChart3, label: 'Analytics', path: '/analytics' },
   ];
 
   return (

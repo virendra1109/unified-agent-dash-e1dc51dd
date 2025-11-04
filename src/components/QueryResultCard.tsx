@@ -95,20 +95,6 @@ export default function QueryResultCard({ result, processingTime }: QueryResultC
           </div>
         </div>
 
-        {/* Final Result */}
-        <div className="space-y-2">
-          <div className="text-sm font-semibold text-foreground">Final Result</div>
-          <div
-            className={cn(
-              'rounded-lg p-4 border-2',
-              result.success
-                ? 'bg-success/10 border-success/30 text-success-foreground'
-                : 'bg-destructive/10 border-destructive/30 text-destructive-foreground'
-            )}
-          >
-            <p className="whitespace-pre-wrap">{result.result || result.error || 'No result'}</p>
-          </div>
-        </div>
       </CardContent>
     </Card>
   );
