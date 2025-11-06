@@ -1,5 +1,9 @@
+<<<<<<< HEAD
 // // src/lib/api.ts
 // // API Service Layer for Multi-MCP Agent with Dual Approaches
+=======
+// // API Service Layer for Multi-MCP Agent
+>>>>>>> 0a18f4e417390a12c13e650aecaa461316d4463f
 
 // const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:8000';
 
@@ -10,6 +14,7 @@
 // export interface QueryResponse {
 //   success: boolean;
 //   query: string;
+<<<<<<< HEAD
 //   approach?: number;
 //   plan?: {
 //     servers?: string[];
@@ -18,6 +23,13 @@
 //   };
 //   selected_tools?: Record<string, string[]>;
 //   agents_used?: string[];
+=======
+//   plan: {
+//     servers: string[];
+//     tool_queries: Record<string, string>;
+//   };
+//   selected_tools: Record<string, string[]>;
+>>>>>>> 0a18f4e417390a12c13e650aecaa461316d4463f
 //   result?: string;
 //   error?: string;
 // }
@@ -54,6 +66,7 @@
 
 // export interface HealthResponse {
 //   status: string;
+<<<<<<< HEAD
 //   approach1_initialized: boolean;
 //   approach2_initialized: boolean;
 //   approach1_servers: number;
@@ -72,6 +85,9 @@
 
 // export interface ApproachesResponse {
 //   approaches: ApproachInfo[];
+=======
+//   agent_initialized: boolean;
+>>>>>>> 0a18f4e417390a12c13e650aecaa461316d4463f
 // }
 
 // class APIClient {
@@ -81,6 +97,7 @@
 //     this.baseURL = baseURL;
 //   }
 
+<<<<<<< HEAD
 //   // Unified query endpoint with approach selection
 //   async processQueryWithApproach(query: string, approach: number): Promise<QueryResponse> {
 //     const response = await fetch(`${this.baseURL}/api/query/unified`, {
@@ -92,11 +109,23 @@
 //     if (!response.ok) {
 //       const error = await response.json().catch(() => ({ detail: response.statusText }));
 //       throw new Error(error.detail || `Query failed: ${response.statusText}`);
+=======
+//   async processQuery(query: string): Promise<QueryResponse> {
+//     const response = await fetch(`${this.baseURL}/api/query`, {
+//       method: 'POST',
+//       headers: { 'Content-Type': 'application/json' },
+//       body: JSON.stringify({ query }),
+//     });
+
+//     if (!response.ok) {
+//       throw new Error(`Query failed: ${response.statusText}`);
+>>>>>>> 0a18f4e417390a12c13e650aecaa461316d4463f
 //     }
 
 //     return response.json();
 //   }
 
+<<<<<<< HEAD
 //   // Legacy approach 1 endpoint (for backward compatibility)
 //   async processQuery(query: string): Promise<QueryResponse> {
 //     return this.processQueryWithApproach(query, 1);
@@ -114,6 +143,8 @@
 //   }
 
 //   // Server management (Approach 1)
+=======
+>>>>>>> 0a18f4e417390a12c13e650aecaa461316d4463f
 //   async listServers(): Promise<ListServersResponse> {
 //     const response = await fetch(`${this.baseURL}/api/registry/servers`);
 
@@ -153,7 +184,10 @@
 //     return response.json();
 //   }
 
+<<<<<<< HEAD
 //   // Health check
+=======
+>>>>>>> 0a18f4e417390a12c13e650aecaa461316d4463f
 //   async checkHealth(): Promise<HealthResponse> {
 //     const response = await fetch(`${this.baseURL}/health`);
 
@@ -167,14 +201,19 @@
 
 // export const apiClient = new APIClient(API_BASE_URL);
 
+<<<<<<< HEAD
 
 // src/lib/api.ts
 // API Service Layer for Multi-MCP Agent with Dual Approaches
+=======
+// API Service Layer for Multi-MCP Agent
+>>>>>>> 0a18f4e417390a12c13e650aecaa461316d4463f
 
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:8000';
 
 export interface QueryRequest {
   query: string;
+  session_id?: string;
 }
 
 export interface QueryResponse {
@@ -190,6 +229,7 @@ export interface QueryResponse {
   agents_used?: string[];
   result?: string;
   error?: string;
+  session_id?: string;
 }
 
 export interface MCPServerConfig {
@@ -251,12 +291,20 @@ class APIClient {
     this.baseURL = baseURL;
   }
 
+<<<<<<< HEAD
   // Unified query endpoint with approach selection
   async processQueryWithApproach(query: string, approach: number): Promise<QueryResponse> {
     const response = await fetch(`${this.baseURL}/api/query/unified`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ query, approach }),
+=======
+  async processQuery(query: string, session_id?: string): Promise<QueryResponse> {
+    const response = await fetch(`${this.baseURL}/api/query`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ query, session_id }),
+>>>>>>> 0a18f4e417390a12c13e650aecaa461316d4463f
     });
 
     if (!response.ok) {
@@ -267,6 +315,7 @@ class APIClient {
     return response.json();
   }
 
+<<<<<<< HEAD
   // Legacy approach 1 endpoint (for backward compatibility)
   async processQuery(query: string): Promise<QueryResponse> {
     return this.processQueryWithApproach(query, 1);
@@ -278,12 +327,26 @@ class APIClient {
 
     if (!response.ok) {
       throw new Error(`Failed to fetch approaches: ${response.statusText}`);
+=======
+  async clearSession(session_id: string): Promise<{ success: boolean; message: string }> {
+    const response = await fetch(`${this.baseURL}/api/clear-session`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ session_id }),
+    });
+
+    if (!response.ok) {
+      throw new Error(`Failed to clear session: ${response.statusText}`);
+>>>>>>> 0a18f4e417390a12c13e650aecaa461316d4463f
     }
 
     return response.json();
   }
 
+<<<<<<< HEAD
   // Server management (Approach 1)
+=======
+>>>>>>> 0a18f4e417390a12c13e650aecaa461316d4463f
   async listServers(): Promise<ListServersResponse> {
     const response = await fetch(`${this.baseURL}/api/registry/servers`);
 
