@@ -1,8 +1,15 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { MessageSquare, Server, Settings, Menu, X, Activity } from 'lucide-react';
+import { MessageSquare, Server, Settings, Menu, X, Activity, User } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import { apiClient } from '@/lib/api';
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from '@/components/ui/dropdown-menu';
 import { cn } from '@/lib/utils';
 
 interface LayoutProps {
@@ -12,25 +19,6 @@ interface LayoutProps {
 export default function Layout({ children }: LayoutProps) {
   const location = useLocation();
   const [sidebarOpen, setSidebarOpen] = useState(true);
-  const [healthStatus, setHealthStatus] = useState<'healthy' | 'unhealthy' | 'checking'>('checking');
-  const [agentInitialized, setAgentInitialized] = useState(false);
-
-  useEffect(() => {
-    const checkHealth = async () => {
-      try {
-        const health = await apiClient.checkHealth();
-        setHealthStatus(health.status === 'healthy' ? 'healthy' : 'unhealthy');
-        setAgentInitialized(health.agent_initialized);
-      } catch {
-        setHealthStatus('unhealthy');
-      }
-    };
-
-    checkHealth();
-    const interval = setInterval(checkHealth, 30000); // Check every 30s
-
-    return () => clearInterval(interval);
-  }, []);
 
   const navItems = [
     { icon: MessageSquare, label: 'Chat', path: '/' },
@@ -128,23 +116,41 @@ export default function Layout({ children }: LayoutProps) {
           </div>
 
           <div className="flex items-center gap-4">
-            {/* Health Status */}
-            <div className="flex items-center gap-2 rounded-full bg-muted px-4 py-2">
-              <div
-                className={cn(
-                  'h-2 w-2 rounded-full',
-                  healthStatus === 'healthy' && 'bg-success animate-pulse',
-                  healthStatus === 'unhealthy' && 'bg-destructive',
-                  healthStatus === 'checking' && 'bg-warning animate-pulse'
-                )}
-              />
-              <span className="text-sm font-medium text-muted-foreground">
-                {agentInitialized ? 'Agent Ready' : 'Initializing...'}
-              </span>
-            </div>
+            {/* Welcome Message */}
+            <span className="hidden md:block text-sm text-muted-foreground">
+              Welcome, <span className="font-semibold text-foreground">User</span>
+            </span>
 
-            {/* User Avatar Placeholder */}
-            <div className="h-10 w-10 rounded-full bg-gradient-primary" />
+            {/* User Avatar with Dropdown */}
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <Button
+                  variant="ghost"
+                  className="relative h-10 w-10 rounded-full p-0 bg-gradient-primary hover:shadow-glow transition-all duration-200"
+                >
+                  <User className="h-5 w-5 text-white" />
+                </Button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent align="end" className="w-56">
+                <DropdownMenuLabel className="font-normal">
+                  <div className="flex flex-col space-y-1">
+                    <p className="text-sm font-medium leading-none">User</p>
+                    <p className="text-xs leading-none text-muted-foreground">
+                      user@example.com
+                    </p>
+                  </div>
+                </DropdownMenuLabel>
+                <DropdownMenuSeparator />
+                <DropdownMenuItem>
+                  <Settings className="mr-2 h-4 w-4" />
+                  <span>Settings</span>
+                </DropdownMenuItem>
+                <DropdownMenuSeparator />
+                <DropdownMenuItem className="text-destructive">
+                  <span>Log out</span>
+                </DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
           </div>
         </header>
 
